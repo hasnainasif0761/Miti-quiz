@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+body
+{
+    width: 100%;
+    height: 100vh;
+    background: orange;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+form
+{
+    width: 280px;
+    height: auto;
+    padding: 40px;
+    border-radius: 10px;
+    background: #ddd;
+}
+#submit
+{
+    width: 100px;
+    height: 40px;
+    background: orange;
+   border: none;
+   border-radius: 10px;
+   font-size: 20px;
+}
+#submit:hover
+{
+    background: greenyellow;
+    color: white;
+    transition: .5s;
+    cursor: pointer;
+}
+    </style>
+</head>
+<body>
+    <form action="/quiz.html" name="submit-to-google-sheet">
+        <label >Name</label><br>
+        <input type="text" name="name" required ><br><br>
+        <label >Email</label><br>
+        <input type="text" name="email" required><br><br>
+        <label >Gender</label><br>
+        <input type="radio" name="gender" value="Male" > <label >Male</label>
+        <input type="radio" name="gender" value="female" > <label >femail</label><br><br>
+        <label >message</label><br>
+     <textarea name="message" cols="20" required></textarea><br><br>
+     <input type="submit"  id="submit"name="submit">
+
+     <span id="success"></span>
+    </form>
+    <script >
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbwnUb7kO8CVwIFY7z2qyPwWDHLlTrzpDH2qF8A23LDuCk_jLIGARksylQCrNFpqGgub/exec'
+        const form = document.forms['submit-to-google-sheet']
+        const success = document.getElementById('success');
+        form.addEventListener('submit', e => {
+          e.preventDefault()
+          fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+            .then(response => {
+              success.innerHTML="data successfully Enter";
+      
+              setTimeout(function(){
+                  success.innerHTML="";
+              }, 500)
+              form.reset();
+            })
+            .catch(error => console.error('Error!', error.message))
+        })
+    </script>
+</body>
+</html>
